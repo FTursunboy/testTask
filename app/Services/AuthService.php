@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-use App\Jobs\SendEmailJob;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +11,8 @@ use Illuminate\Support\Facades\Hash;
 class AuthService {
 
     public function register(array $data) : User {
-        $password = $data['password'];
 
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -21,9 +20,6 @@ class AuthService {
         ]);
 
 
-        SendEmailJob::dispatch($user->email, $password);
-
-        return $user;
     }
 
     public function login(array $data): ?array
