@@ -21,7 +21,7 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(RegisterRequest $request) : SuccessResponse|ErrorResponse {
+    public function register(RegisterRequest $request) : SuccessResponse {
         $data = $request->validated();
 
         $user = $this->authService->register($data);
@@ -29,26 +29,35 @@ class AuthController extends Controller
         return new SuccessResponse
         ([
             'user' => new UserResource($user),
-            'message' => true
+            'message' => 'Success'
         ]);
     }
 
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request) : SuccessResponse|ErrorResponse {
 
         $user = $this->authService->login($request->validated());
+
 
         if ($user) {
             return new SuccessResponse([
                 'user' => new UserResource($user['user']),
-                'token' => new $user['token'],
-                'message' => true
+                'token' => $user['token'],
+                'message' => 'Success'
             ]);
         }
 
         return new ErrorResponse(
             status: 401
         );
+    }
+
+    public function logout() {
+        $this->authService->logoutUser();
+
+        return new SuccessResponse([
+            'message' => 'Success'
+        ]);
     }
 
 }

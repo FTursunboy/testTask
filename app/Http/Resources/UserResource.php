@@ -18,7 +18,8 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'email' => $this->resource->email,
-            'created_at' => $this->resource->created_at
+            'gender' => $this->resource->gender ? "М" : "Ж",
+            'created_at' => $this->resource->created_at->format('Y-m-d')
         ];
     }
 }
