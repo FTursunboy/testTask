@@ -52,7 +52,7 @@ class AuthController extends Controller
         );
     }
 
-    public function logout() {
+    public function logout() : SuccessResponse {
         $this->authService->logoutUser();
 
         return new SuccessResponse([
